@@ -14,8 +14,8 @@
 5. Check everything with `kubectl get all`
 
 ### Testing
-[ ] Curl *(still no clue what is wrong)*
-[x] Nghttp
+❌ Curl *(still no clue what is wrong)*<br/><br/>
+✅ Nghttp
 1. From inside the pod. 
     - `kubectl exec -it pod/POD_NAME -- sh`
     - #`nghttp http://0.0.0.0:3000`
@@ -27,7 +27,7 @@
     - #`nghttp http://nghttp1-service:3000`
 4. From NodePort
     - `minikube service nghttp1-service-exposed --url | xargs nghttp` if you have nghttp installed.
-5. [ ] From ingress *(bug ???)*
+5. ❌ From ingress *(bug ???)*
 
 ### PS
 dockerClientNghttp looks really weird, i was trying to comporess images a bit, but somehow they are 400mb - 1.4gb
