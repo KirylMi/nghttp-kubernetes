@@ -14,20 +14,29 @@
 5. Check everything with `kubectl get all`
 
 ### Testing
-❌ Curl *(still no clue what is wrong)*<br/><br/>
+✅ Curl 
+1. From inside the pod (nah)
+2. From custom pod in the cluster
+    - `kubectl run curltester -it --rm --image=nghttp-client-curl:2 -- sh`
+    - #`curl `**`--http2-prior-knowledge`**`http://nghttp-service:3000`
+3. From dockerhub minipod temporary installed in the cluster
+    - `kubectl run curl-foreign-tester -it --rm --image=badouralix/curl-http2 -- sh`
+    - #`curl `**`--http2-prior-knowledge`**`http://nghttp-service:3000`
+4. From NodePort
+    - `minikube service nghttp-service-exposed --url | xargs curl --http2-prior-knowledge`
+5. ❌ From ingress (tbd)
+
+<br/><br/>
 ✅ Nghttp
 1. From inside the pod. 
     - `kubectl exec -it pod/POD_NAME -- sh`
     - #`nghttp http://0.0.0.0:3000`
 2. From custom pod in the cluster *(to be fixed to look like #3)*
-    - `kubectl run testing23 --image=nghttp-client:2 http://nghttp1-service:3000`
+    - `kubectl run testing23 --image=nghttp-client:2 http://nghttp-service:3000`
     - `kubectl logs testing23`
 3. From dockerhub minipod in the cluster
     - `kubectl run tester-1 --image=svagi/nghttp2 -i --tty --rm -- sh`
-    - #`nghttp http://nghttp1-service:3000`
+    - #`nghttp http://nghttp-service:3000`
 4. From NodePort
-    - `minikube service nghttp1-service-exposed --url | xargs nghttp` if you have nghttp installed.
-5. ❌ From ingress *(bug ???)*
-
-### PS
-dockerClientNghttp looks really weird, i was trying to comporess images a bit, but somehow they are 400mb - 1.4gb
+    - `minikube service nghttp-service-exposed --url | xargs nghttp` if you have nghttp installed.
+5. ❌ From ingress (tbd)

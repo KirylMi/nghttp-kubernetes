@@ -9,26 +9,23 @@ RUN apt update && apt-get install g++ make binutils autoconf automake autotools-
   wget -y
 
 
-#nghttp && server
-RUN wget https://github.com/nghttp2/nghttp2/releases/download/v1.30.0/nghttp2-1.30.0.tar.bz2
-RUN tar -xvjf nghttp2-1.30.0.tar.bz2
-RUN mv nghttp2-1.30.0 /nghttp
+#nghttp
+RUN wget https://github.com/nghttp2/nghttp2/releases/download/v1.30.0/nghttp2-1.30.0.tar.bz2 && \
+  tar -xvjf nghttp2-1.30.0.tar.bz2 && \
+  mv nghttp2-1.30.0 /nghttp
 
 WORKDIR /nghttp
 
 COPY ./simpleServer.cpp ./simpleServer.cpp
 COPY ./index.html ./index.html
 
-
-
-RUN ./configure --enable-asio-lib
-RUN make && make install
+#compiling server
+RUN ./configure --enable-asio-lib && \
+  make && make install
 
 #build server into resultServer file
-RUN g++ -std=c++11 -I ./src/includes -I ./lib/includes simpleServer.cpp -o resultServer -lnghttp2_asio -lboost_system -lssl -lcrypto
-
-#? magic
-RUN ldconfig -v
+RUN g++ -std=c++11 -I ./src/includes -I ./lib/includes simpleServer.cpp -o resultServer -lnghttp2_asio -lboost_system -lssl -lcrypto && \
+ldconfig -v
 
 #starting the server
 EXPOSE 3000
