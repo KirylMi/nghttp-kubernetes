@@ -2,15 +2,44 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.name }}-ingress
+#  annotations:
+#    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - host: testing.nghttp.com
     http:
       paths:
-      - path: /
-        pathType: Prefix
+      - path: /testcp
+        pathType: Exact
         backend:
           service:
             name: {{ .Values.name }}-service
             port:
               number: 3000
+      - path: /testnp
+        pathType: Exact
+        backend:
+          service:
+            name: {{ .Values.name }}-service-exposed
+            port:
+              number: 3000
+      - path: /testlb
+        pathType: Exact
+        backend:
+          service:
+            name: {{ .Values.name }}-service-lb
+            port:
+              number: 3000
+# next one is for https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
+  - host: testing.hello-world.com
+    http:
+      paths:
+        - pathType: Exact
+          path: /
+          backend:
+            service:
+              name: web
+              port:
+                number: 8080
+    
+      

@@ -12,6 +12,10 @@
     3. `minikube image load nghttp-client-curl:1`
 4. `helm install nghttp nghttpServer`
 5. Check everything with `kubectl get all`
+6. `minikube addons enable ingress`
+7. `minikube addons enable metallb`
+8. `minikube addons configure metallb`
+9. Enter two IPs, based on the minikube ip value (for example minikube ip = 192.168.1.10 => startIp = 192.168.1.20 and endIp = 192.168.1.35)
 
 ### Testing
 ✅ Curl 
@@ -40,3 +44,6 @@
 4. From NodePort
     - `minikube service nghttp-service-exposed --url | xargs nghttp` if you have nghttp installed.
 5. ❌ From ingress (tbd)
+
+
+P.S. dockerServer Dockerfile looks ridicilous, i know that. Was trying to compress it a bit, but 50mb aren't worth it.<br/>Traefik configuration was taken from https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/kubernetes/ingress/controller/traefik
