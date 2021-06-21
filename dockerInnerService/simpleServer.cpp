@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
 
   server.handle("/", [](const request &req, const response &res) {
     res.write_head(200);
-    res.end(file_generator("index.html"));
+    res.end("Some future json stuff");
   });
 
   if (server.listen_and_serve(ec, "0.0.0.0", "3000")) {

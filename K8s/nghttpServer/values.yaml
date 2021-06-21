@@ -2,12 +2,12 @@ outerService:
   name: outer-old
   clusterIP: outer-old-service
   image: "outer"
-  imageVersion: 2
+  imageVersion: secondwithclient
 innerService:
   clusterIP: inner-new-service
   name: inner-new
   image: "inner"
-  imageVersion: 1
+  imageVersion: first
 
 
 dnsConfig:

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.innerService.name }}-dpl
+  labels:
+    app: "{{ .Values.innerService.name }}"
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Values.innerService.name }}"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.innerService.name }}"
+    spec:
+      containers:
+      - name: "{{ .Values.innerService.name }}"
+        image: {{ .Values.innerService.image }}:{{ .Values.innerService.imageVersion}}
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
+
+

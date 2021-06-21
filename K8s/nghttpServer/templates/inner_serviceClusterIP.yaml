@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.innerService.clusterIP}}
+  labels:
+    app: "{{ .Values.innerService.name }}"
+spec:
+  type: ClusterIP
+  selector:
+    app: "{{ .Values.innerService.name }}"
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000

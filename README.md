@@ -47,3 +47,8 @@
 
 
 P.S. dockerServer Dockerfile looks ridicilous, i know that. Was trying to compress it a bit, but 50mb aren't worth it.<br/>Traefik configuration was taken from https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/kubernetes/ingress/controller/traefik
+
+TBD:
+
+1. fix & in cpp
+2. 25 minute builds are not fun at all
