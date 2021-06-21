@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.outerService.name }}-dpl
+  labels:
+    app: "{{ .Values.outerService.name }}"
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Values.outerService.name }}"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: "{{ .Values.outerService.name }}"
+    spec:
+      containers:
+      - name: "{{ .Values.outerService.name }}"
+        image: {{ .Values.outerService.image }}:{{ .Values.outerService.imageVersion}}
+        env:
+        - name: DNS_INNER_SERVICE
+          valueFrom:
+           configMapKeyRef:
+             name: {{ .Values.dnsConfig.name}}
+             key: innerServiceDNS
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 3000
+
+

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Values.dnsConfig.name}}
+data:
+  innerServiceDNS: {{.Values.innerService.clusterIP}}
+  outerServiceDNS: {{.Values.outerService.clusterIP}}
+

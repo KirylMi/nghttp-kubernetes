@@ -1,3 +1,14 @@
-name: nghttp
-image: "nghttp-server"
-imageVersion: 2
+outerService:
+  name: outer-old
+  clusterIP: outer-old-service
+  image: "outer"
+  imageVersion: 2
+innerService:
+  clusterIP: inner-new-service
+  name: inner-new
+  image: "inner"
+  imageVersion: 1
+
+
+dnsConfig:
+  name: dns-config
