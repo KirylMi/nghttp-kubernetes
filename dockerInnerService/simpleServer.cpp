@@ -31,15 +31,16 @@ int main(int argc, char *argv[]) {
 
   server.handle("/", [](const request &req, const response &res) {
     req.on_data([&res](const uint8_t *data, std::size_t len) {
-      Document d;
+      //Document d;
+      std::cerr.write(reinterpret_cast<const char *>(data), len);
       //monstrosity
-      char *cptr = reinterpret_cast<char*>(const_cast<uint8_t*>(data));
-      d.Parse(cptr);
-      std::cerr<<"data received: "<<data;
-      if(d.HasMember("testRequest")){
-        res.write_head(200);
-        res.end("{\"testResponce\":\"success\"}");
-      }      
+      //char *cptr = reinterpret_cast<char*>(const_cast<uint8_t*>(data));
+      //d.Parse(cptr);
+      //std::cerr<<"data received: "<<data;
+      //if(d.HasMember("testRequest")){
+      //  res.write_head(200);
+      //  res.end("{\"testResponce\":\"success\"}");
+      //}      
     });
     //res.write_head(500);
     res.write_head(200);
