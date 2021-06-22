@@ -24,8 +24,8 @@ int main(int argc, char *argv[]) {
   sess.on_connect([&sess, &full_url](tcp::resolver::iterator endpoint_it) {
     boost::system::error_code ec;
 
-    //auto req = sess.submit(ec, "POST", full_url);
-    auto req = sess.submit(ec, "GET", full_url);
+    auto req = sess.submit(ec, "POST", full_url);
+    //auto req = sess.submit(ec, "GET", full_url);
 
     req->on_response([](const response &res) {
       // print status code and response header fields.

@@ -11,6 +11,7 @@
 using namespace nghttp2::asio_http2;
 using namespace nghttp2::asio_http2::server;
 
+//https://stackoverflow.com/a/478960/13131415
 std::string exec(const char* cmd) {
     std::array<char, 128> buffer;
     std::string result;
@@ -31,7 +32,8 @@ int main(int argc, char *argv[]) {
 
   server.handle("/", [](const request &req, const response &res) {
     res.write_head(200);
-    res.end(exec("./resultClient"));
+    //calling client and redirecting stderr > stdout
+    res.end(exec("./resultClient 2>&1"));
   });
   
   if (server.listen_and_serve(ec, "0.0.0.0", "3000")) {

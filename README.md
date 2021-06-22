@@ -1,23 +1,33 @@
 ## NGHTTP-K8s
 
-## new info in progress.
+### tbd:
 
+0. build time
+1. tests
+2. json (rapidjson)
 
-## OUTDATED:
+### Docker images:
+1. dockerClientCurl   - container with curl command avaialable. Can be used for testing purposes as a temporary pod
+2. dockerInnerService - container with server, that accepts all requests and returns json. In this context, should only be accessible via clusterIP (from other services) (new = service#2)
+3. dockerOuterService - container with server and client, that accepts *all* requests and returns the result of it's own request(via additional executable) to the inner service(which is accessible by the env variable *DNS_INNER_SERVICE*) (old = service1)
+
 ### HowTO:
 0. Install minikube, docker, helm
-1. Build docker images
-    1. build from dockerServer folder `docker build --tag nghttp-server:1 .`
-    2. build from dockerClientNghttp folder `docker build --tag nghttp-client:1 .`
+2. Build docker images *recommendation: build them at the same time*
+    1. build from dockerInnerService folder `docker build --tag inner:1 .`
+    2. build from dockerOuterService folder `docker build --tag outer:1 .`
+    <br/>*optional:*
     3. build from dockerClientCurl folder `docker build --tag nghttp-client-curl:1 .`
-2. Change `K8s/values.yaml` parameters if needed
+2. Change `K8s/values.yaml` parameters
 3. Minikube has no idea about local images, so: 
-    1. `minikube image load nghttp-server:1`
-    2. `minikube image load nghttp-client:1`
+    1. `minikube image load inner:1`
+    2. `minikube image load outer:1`
+    <br/>*optional:*
     3. `minikube image load nghttp-client-curl:1`
 4. `helm install nghttp nghttpServer`
 5. Check everything with `kubectl get all`
 6. `minikube addons enable ingress`
+<br/>*optional for loadbalancer tests*
 7. `minikube addons enable metallb`
 8. `minikube addons configure metallb`
 9. Enter two IPs, based on the minikube ip value (for example minikube ip = 192.168.1.10 => startIp = 192.168.1.20 and endIp = 192.168.1.35)
@@ -27,33 +37,10 @@
 1. From inside the pod (nah)
 2. From custom pod in the cluster
     - `kubectl run curltester -it --rm --image=nghttp-client-curl:2 -- sh`
-    - #`curl `**`--http2-prior-knowledge`**`http://nghttp-service:3000`
+    - #`curl `**`--http2-prior-knowledge`**`http://outer-old-service:3000`
 3. From dockerhub minipod temporary installed in the cluster
     - `kubectl run curl-foreign-tester -it --rm --image=badouralix/curl-http2 -- sh`
-    - #`curl `**`--http2-prior-knowledge`**`http://nghttp-service:3000`
+    - #`curl `**`--http2-prior-knowledge`**`http://outer-old-service:3000`
 4. From NodePort
-    - `minikube service nghttp-service-exposed --url | xargs curl --http2-prior-knowledge`
+    - `minikube service outer-old-service-exposed --url | xargs curl --http2-prior-knowledge`
 5. ❌ From ingress (tbd)
-
-<br/><br/>
-✅ Nghttp
-1. From inside the pod. 
-    - `kubectl exec -it pod/POD_NAME -- sh`
-    - #`nghttp http://0.0.0.0:3000`
-2. From custom pod in the cluster *(to be fixed to look like #3)*
-    - `kubectl run testing23 --image=nghttp-client:2 http://nghttp-service:3000`
-    - `kubectl logs testing23`
-3. From dockerhub minipod in the cluster
-    - `kubectl run tester-1 --image=svagi/nghttp2 -i --tty --rm -- sh`
-    - #`nghttp http://nghttp-service:3000`
-4. From NodePort
-    - `minikube service nghttp-service-exposed --url | xargs nghttp` if you have nghttp installed.
-5. ❌ From ingress (tbd)
-
-
-P.S. dockerServer Dockerfile looks ridicilous, i know that. Was trying to compress it a bit, but 50mb aren't worth it.<br/>Traefik configuration was taken from https://github.com/marcel-dempers/docker-development-youtube-series/tree/master/kubernetes/ingress/controller/traefik
-
-TBD:
-
-1. 25 minute builds are not fun at all (partially "fixed")
-2. client script works, it outputs data into logs, but server isn't receiving it from the exec method. TO BE CHECKED!
