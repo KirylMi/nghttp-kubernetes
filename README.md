@@ -2,8 +2,7 @@
 
 ### tbd:
 
-0. build time
-1. tests
+1. build time
 2. json (rapidjson)
 
 ### Docker images:
@@ -17,13 +16,13 @@
     1. build from dockerInnerService folder `docker build --tag inner:1 .`
     2. build from dockerOuterService folder `docker build --tag outer:1 .`
     <br/>*optional:*
-    3. build from dockerClientCurl folder `docker build --tag nghttp-client-curl:1 .`
+    3. build from dockerClientCurl folder `docker build --tag client-curl:1 .`
 2. Change `K8s/values.yaml` parameters
 3. Minikube has no idea about local images, so: 
     1. `minikube image load inner:1`
     2. `minikube image load outer:1`
     <br/>*optional:*
-    3. `minikube image load nghttp-client-curl:1`
+    3. `minikube image load client-curl:1`
 4. `helm install nghttp nghttpServer`
 5. Check everything with `kubectl get all`
 6. `minikube addons enable ingress`
@@ -36,7 +35,7 @@
 ✅ Curl 
 1. From inside the pod (nah)
 2. From custom pod in the cluster
-    - `kubectl run curltester -it --rm --image=nghttp-client-curl:2 -- sh`
+    - `kubectl run curltester -it --rm --image=client-curl:1 -- sh`
     - #`curl `**`--http2-prior-knowledge`**`http://outer-old-service:3000`
 3. From dockerhub minipod temporary installed in the cluster
     - `kubectl run curl-foreign-tester -it --rm --image=badouralix/curl-http2 -- sh`

@@ -13,8 +13,8 @@ RUN wget https://github.com/nghttp2/nghttp2/releases/download/v1.30.0/nghttp2-1.
 
 WORKDIR /nghttp
 
-RUN ./configure --enable-asio-lib && \
-  make && make install && \
+RUN ./configure -q -C --enable-asio-lib && \
+  make -j 2 && make install && \
   ldconfig -v
 
 #CURL ###maybe add temp/dir to all of the dependencies
