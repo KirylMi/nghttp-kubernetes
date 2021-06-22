@@ -1,4 +1,9 @@
 ## NGHTTP-K8s
+
+## new info in progress.
+
+
+## OUTDATED:
 ### HowTO:
 0. Install minikube, docker, helm
 1. Build docker images
@@ -50,5 +55,5 @@ P.S. dockerServer Dockerfile looks ridicilous, i know that. Was trying to compre
 
 TBD:
 
-1. fix & in cpp
-2. 25 minute builds are not fun at all
+1. 25 minute builds are not fun at all (partially "fixed")
+2. client script works, it outputs data into logs, but server isn't receiving it from the exec method. TO BE CHECKED!
