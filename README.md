@@ -2,8 +2,7 @@
 
 ### tbd:
 
-1. build time
-2. json (rapidjson)
+1. json (rapidjson)
 
 ### Docker images:
 1. dockerClientCurl   - container with curl command avaialable. Can be used for testing purposes as a temporary pod
@@ -43,3 +42,5 @@
 4. From NodePort
     - `minikube service outer-old-service-exposed --url | xargs curl --http2-prior-knowledge`
 5. ❌ From ingress (tbd)
+
+P.S. minikube cache add image_name:v takes some time
