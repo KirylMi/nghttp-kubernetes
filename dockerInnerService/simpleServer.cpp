@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
     req.on_data([&res](const uint8_t *data, std::size_t len) {
       //Document d;
       std::cerr.write(reinterpret_cast<const char *>(data), len);
+      //STRCPY with new char* [len] etc...
       //monstrosity
       //char *cptr = reinterpret_cast<char*>(const_cast<uint8_t*>(data));
       //d.Parse(cptr);
