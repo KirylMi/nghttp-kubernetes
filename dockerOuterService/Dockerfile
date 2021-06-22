@@ -16,12 +16,12 @@ RUN wget https://github.com/nghttp2/nghttp2/releases/download/v1.30.0/nghttp2-1.
 
 WORKDIR /nghttp
 
-COPY ./simpleServer.cpp ./simpleServer.cpp
-COPY ./simpleClient.cpp ./simpleClient.cpp
-
 #compiling server
 RUN ./configure -q -C --enable-asio-lib && \
   make -j 2 && make install
+
+COPY ./simpleServer.cpp ./simpleServer.cpp
+COPY ./simpleClient.cpp ./simpleClient.cpp
 
 #build server and client
 RUN g++ -std=c++11 -I ./src/includes -I ./lib/includes simpleServer.cpp -o resultServer -lnghttp2_asio -lboost_system -lssl -lcrypto && \

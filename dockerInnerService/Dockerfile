@@ -11,19 +11,22 @@ RUN apt update && apt-get install g++ make binutils autoconf automake autotools-
 
 #nghttp
 RUN wget https://github.com/nghttp2/nghttp2/releases/download/v1.30.0/nghttp2-1.30.0.tar.bz2 && \
-  tar -xvjf nghttp2-1.30.0.tar.bz2 && \
-  mv nghttp2-1.30.0 /nghttp
+  tar -xjf nghttp2-1.30.0.tar.bz2 && \
+  mv nghttp2-1.30.0 /nghttp && \
+    wget https://github.com/Tencent/rapidjson/archive/refs/tags/v1.1.0.tar.gz && \
+  tar -xzf v1.1.0.tar.gz && \
+  mv rapidjson-1.1.0 /nghttp/rapidjson
 
 WORKDIR /nghttp
-
-COPY ./simpleServer.cpp ./simpleServer.cpp
 
 #compiling server
 RUN ./configure -q -C --enable-asio-lib && \
   make -j 2 && make install
 
+COPY ./simpleServer.cpp ./simpleServer.cpp
+
 #build server into resultServer file
-RUN g++ -std=c++11 -I ./src/includes -I ./lib/includes simpleServer.cpp -o resultServer -lnghttp2_asio -lboost_system -lssl -lcrypto && \
+RUN g++ -std=c++11 -I ./src/includes -I ./lib/includes -I ./rapidjson/include/rapidjson simpleServer.cpp -o resultServer -lnghttp2_asio -lboost_system -lssl -lcrypto && \
 ldconfig -v
 
 #starting the server

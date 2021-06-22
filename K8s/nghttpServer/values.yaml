@@ -7,7 +7,7 @@ innerService:
   clusterIP: inner-new-service
   name: inner-new
   image: "inner"
-  imageVersion: 1
+  imageVersion: withjson1
 
 
 dnsConfig:
