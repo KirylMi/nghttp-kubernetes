@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     });
   });
 
-  if (server.listen_and_serve(ec, "0.0.0.0", "3001")) {
+  if (server.listen_and_serve(ec, "0.0.0.0", "3000")) {
     std::cerr << "error: " << ec.message() << std::endl;
   }
 }

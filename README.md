@@ -1,9 +1,5 @@
 ## NGHTTP-K8s
 
-### tbd:
-
-1. json (rapidjson)
-
 ### Docker images:
 1. dockerClientCurl   - container with curl command avaialable. Can be used for testing purposes as a temporary pod
 2. dockerInnerService - container with server, that accepts all requests and returns json. In this context, should only be accessible via clusterIP (from other services) (new = service#2)
@@ -18,10 +14,10 @@
     3. build from dockerClientCurl folder `docker build --tag client-curl:1 .`
 2. Change `K8s/values.yaml` parameters
 3. Minikube has no idea about local images, so: 
-    1. `minikube image load inner:1`
-    2. `minikube image load outer:1`
+    1. `minikube cache add inner:1`
+    2. `minikube cache add outer:1`
     <br/>*optional:*
-    3. `minikube image load client-curl:1`
+    3. `minikube cache add client-curl:1`
 4. `helm install nghttp nghttpServer`
 5. Check everything with `kubectl get all`
 6. `minikube addons enable ingress`

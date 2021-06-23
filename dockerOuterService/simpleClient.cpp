@@ -29,15 +29,15 @@ int main(int argc, char *argv[]) {
 
     req->on_response([](const response &res) {
       // print status code and response header fields.
-      std::cerr << "HTTP/2 " << res.status_code() << std::endl;
-      for (auto &kv : res.header()) {
-        std::cerr << kv.first << ": " << kv.second.value << "\n";
-      }
-      std::cerr << std::endl;
+      //std::cerr << "HTTP/2 " << res.status_code() << std::endl;
+      //for (auto &kv : res.header()) {
+      //  std::cerr << kv.first << ": " << kv.second.value << "\n";
+      //}
+      //std::cerr << std::endl;
 
       res.on_data([](const uint8_t *data, std::size_t len) {
         std::cerr.write(reinterpret_cast<const char *>(data), len);
-        std::cerr << std::endl;
+        //std::cerr << std::endl;
       });
     });
 
