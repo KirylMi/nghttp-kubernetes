@@ -16,7 +16,7 @@ int main(int argc, char *argv[]) {
 
   const std::string target_url	= getenv(ENV_INNER_SERVICE_DNS);
   const std::string target_port	= "3000";
-  const std::string full_url	= "http://"+target_url+"/"+target_port;
+  const std::string full_url	= "http://"+target_url+":"+target_port;
 
   
   session sess(io_service, target_url, target_port);
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
   sess.on_connect([&sess, &full_url](tcp::resolver::iterator endpoint_it) {
     boost::system::error_code ec;
 
-    auto req = sess.submit(ec, "POST", full_url);
+    auto req = sess.submit(ec, "POST", full_url, "{\"testRequest\":\"false\"}");
     //auto req = sess.submit(ec, "GET", full_url);
 
     req->on_response([](const response &res) {

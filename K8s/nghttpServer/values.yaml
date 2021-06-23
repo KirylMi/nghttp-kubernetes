@@ -2,7 +2,7 @@ outerService:
   name: outer-old
   clusterIP: outer-old-service
   image: "outer"
-  imageVersion: 1
+  imageVersion: withRequest2
 innerService:
   clusterIP: inner-new-service
   name: inner-new
